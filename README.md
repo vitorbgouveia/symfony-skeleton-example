@@ -1,98 +1,101 @@
-DESCRIÇÃO PS-{---}-API
-=========================
+# Symfony template API
 
-- Em PHP com Symfony 5 
+Template to easily create API with Symfony.
 
- Lista de funcionalidades:
+- [Symfony template API](#symfony-template-api)
+  - [List of functionalities](#list-of-functionalities)
+  - [How to start](#how-to-start)
+    - [Instalation steps](#instalation-steps)
+    - [Running the tests](#running-the-tests)
+  - [Template structure](#template-structure)
+  - [How to contrib](#how-to-contrib)
 
- * @Route("api/exemplo"                                    methods={POST} )   -> Inserir um ---;
- * @Route("api/exemplo"                                    methods={PUT} )    -> Alterar um ---l;
- * @Route("api/exemplo/:id"                                methods={DELETE} ) -> Deletar pelo id um ---;
- * @Route("api/exemplo/consultar-por-parametro"            methods={GET} )    -> Retorna um determinado --- de acordo com os parâmetros;
- * @Route("api/exemplo/pesquisar-avancado"                 methods={GET} )    -> Retorna lista de ---;
- * @Route("api/exemplo/props"                              methods={GET} )    -> Retorna um json de propriedades que é usado para pesquisar um ---;
+## List of functionalities
 
-## Sumário
-* [Começando](#começando)
-* [Pré-requisitos](#Pré-requisitos)
-* [Instalando](#Instalando)
-* [Testando o sistema](#Testando-o-sistema)
-* [Estrutura de código](#Padronização-de-codigo)
+- @Route("api/example" methods={POST} )           -> Create an entity example;
+- @Route("api/example" methods={PUT} )            -> Edit an entity example;
+- @Route("api/example" methods={PATCH} )          -> Update an entity example;
+- @Route("api/example/:id" methods={DELETE} )     -> Delete an example;
+- @Route("api/example/parameter" methods={GET} )  -> Show an example filtered by parameter;
+- @Route("api/example/search" methods={GET} )     -> Return a list of example filtered by advanced search;
+- @Route("api/example/props" methods={GET} )      -> Return a json with properties used to filter an example;
 
-## Começando
+## How to start
 
-### Pré-requisitos
+> Note: This template assume that you use Docker and Docker Compose to create yours development environment.
 
-* Docker
-* VSCode
+### Instalation steps
 
-### Instalando
+- Clone the project
 
+  ```bash
+    git clone https://github.com/vicentimartins/symfony-skeleton-example.git <your-app-name>
+  ```
 
-Clonando o projeto:
-```bash
- git clone https://github.com/vitorbgouveia/symfony-skeleton-example.git
-```
+- Run environment and install dependencies
 
-Instalar dependências do symfony:
-```bash
- 1 - docker exec -it ps-{---}-api bash
- 2 - composer install
-```
+  ```bash
+    cd <your-app-name>
 
-Populando o banco de desenvolvimento
-```bash
-# ainda na pasta etc
- 1 - docker exec -it ps-{---}-api bash
- 2 - php bin/console doctrine:database:create
- 3 - php bin/console doctrine:migrations:migrate
-```
+    docker-compose up -d --build
 
-## Testando o sistema
-Explicação de como rodar os testes, quais níveis de testes, e comandos para criar mais testes, se houver.
+    docker-compose exec app bash
 
-Obs: Implementar testes;
+    composer install -o
+  ```
 
-## Estrutura de código
-```
-|-- config
-|   |-- packages
-|   |   |-- doctrine.yaml
-|   |-- routes.yaml
-|-- etc
+- Create the application database
+
+  - Copy and edit .env configuration
+
+    > Note: You need to set your database credentials.
+
+    ```bash
+      cp .env.dist .env
+    ```
+
+  - Execute doctrine database creation command
+
+    ```bash
+      bin/console doctrine:database:create
+    ```
+
+### Running the tests
+
+> Note: This template don't have tests to validate anything, tests was not applied for this template.
+
+- Tests need to be added to `/tests` folder
+
+- Run `bin/phpunit` to execute the tests.
+
+## Template structure
+
+```text
+|-- .docker
 |   |-- Dockerfile
-|   |-- docker-compose.yaml
 |   |-- nginx
-|   |   |-- default.confg
 |   |   |-- Dockerfile
+|   |   |-- default.conf
 |   |   |-- swagger
-|   |   |   | -- swagger.json
-|-- src
-|   |-- Kernel.php
-|   |-- Controller
-|   |   |-- AbstractCrudController.php
-|   |   |-- ExemploController.php
-|   |-- Entity
-|   |   |-- AbstractEntity.php
-|   |   |-- Exemplo.php
-|   |-- Migrations
-|   |   |-- 
-|   |-- Repository
-|   |   |-- PaginatorRepository.php
-|   |   |-- ExemploRepository.php
-|   |-- Service
-|   |   |-- ExemploService.php
-|   |   |-- ValidarCampoUnicoService.php
-|-- .env
-|-- compose.json
+|-- database
+|   |-- data
+|-- application -- The Symfony structure.
+|   |-- bin
+|   |-- config
+|   |-- migrations
+|   |-- public
+|   |-- src
+|   |-- tests
+|   |-- var
+|   |-- vendor
+|-- .env.dist
+|-- .gitignore
+|-- docker-compose.yml
 |-- README.md
-|-- LICENSE
 ```
 
-# Docker
+## How to contrib
 
-Rodar a imagem `docker-compose up -d --build`
+All contributions are welcome. If something works differently than you expected, open an issue.
 
-Abrir no navegador `http://localhost:5555`
-
-Swagger no navegador `http://localhost:5555/api-docs/`
+Otherwise, PR are welcome.
